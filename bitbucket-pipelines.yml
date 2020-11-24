@@ -2,7 +2,7 @@ image: python:3.6
 
 pipelines:
   branches:
-    dev:
+    development:
        - step:
           name: Deploy to development
           deployment: development
