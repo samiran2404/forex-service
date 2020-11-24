@@ -1,0 +1,75 @@
+image: python:3.6
+
+pipelines:
+  branches:
+    dev:
+       - step:
+          name: Deploy to development
+          deployment: development
+          caches:
+              - pip
+          script:
+              - pip install virtualenv
+              - virtualenv .env
+              - source .env/bin/activate
+              - start=$(date +%s)
+              - export LANG=C.UTF-8 LANGUAGE=C.en LC_ALL=C.UTF-8;
+              - curl -sL https://sentry.io/get-cli/ | bash
+              - VERSION=`sentry-cli releases propose-version`
+              - sentry-cli releases --org finaxar --project forex-service new $VERSION
+              - sentry-cli releases --org finaxar --project forex-service set-commits $VERSION --commit "finaxar/forex-service@$VERSION"
+              - pip install -r requirements.txt
+              - echo $VERSION > release.commit
+              - export AWS_ACCOUNT_ID=$AWS_DEV_ACCOUNT_ID
+              - export AWS_ACCESS_KEY_ID=$AWS_DEV_ACCESS_KEY_ID
+              - export AWS_SECRET_ACCESS_KEY=$AWS_DEV_SECRET_ACCESS_KEY
+              - export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+              - export PYTHONWARNINGS="ignore:Unverified HTTPS request"
+              - zappa update development   #  run the deployment script
+              - now=$(date +%s)
+              - sentry-cli releases --org finaxar --project forex-service finalize $VERSION
+              - sentry-cli releases --org finaxar --project forex-service deploys $VERSION new -e $BITBUCKET_BRANCH -t $((now-start))
+    staging:
+       - step:
+          name: Deploy to staging
+          deployment: staging
+          caches:
+              - pip
+          script:
+              - pip install virtualenv
+              - virtualenv .env
+              - source .env/bin/activate
+              - start=$(date +%s)
+              - export LANG=C.UTF-8 LANGUAGE=C.en LC_ALL=C.UTF-8;
+              - curl -sL https://sentry.io/get-cli/ | bash
+              - VERSION=`sentry-cli releases propose-version`
+              - sentry-cli releases --org finaxar --project forex-service new $VERSION
+              - sentry-cli releases --org finaxar --project forex-service set-commits $VERSION --commit "finaxar/forex-service@$VERSION"
+              - pip install -r requirements.txt
+              - echo $VERSION > release.commit
+              - zappa update staging   #  run the deployment script
+              - now=$(date +%s)
+              - sentry-cli releases --org finaxar --project forex-service finalize $VERSION
+              - sentry-cli releases --org finaxar --project forex-service deploys $VERSION new -e $BITBUCKET_BRANCH -t $((now-start))
+    production:
+       - step:
+          name: Deploy to production
+          deployment: production
+          caches:
+              - pip
+          script:
+              - pip install virtualenv
+              - virtualenv .env
+              - source .env/bin/activate
+              - start=$(date +%s)
+              - export LANG=C.UTF-8 LANGUAGE=C.en LC_ALL=C.UTF-8;
+              - curl -sL https://sentry.io/get-cli/ | bash
+              - VERSION=`sentry-cli releases propose-version`
+              - sentry-cli releases --org finaxar --project forex-service new $VERSION
+              - sentry-cli releases --org finaxar --project forex-service set-commits $VERSION --commit "finaxar/forex-service@$VERSION"
+              - pip install -r requirements.txt
+              - echo $VERSION > release.commit
+              - zappa update production   #  run the deployment script
+              - now=$(date +%s)
+              - sentry-cli releases --org finaxar --project forex-service finalize $VERSION
+              - sentry-cli releases --org finaxar --project forex-service deploys $VERSION new -e $BITBUCKET_BRANCH -t $((now-start))

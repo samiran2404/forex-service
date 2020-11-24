@@ -1,0 +1,11 @@
+boto3
+raven==6.9.0
+requests
+
+
+-e git://github.com/finaxar/zappa.git#egg=zappa
+
+# Required for zappa
+
+
+

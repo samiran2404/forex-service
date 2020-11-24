@@ -1,0 +1,97 @@
+{
+    "development":{
+        "apigateway_enabled": false,
+        "aws_region": "ap-southeast-1",
+        "aws_environment_variables": {
+           "STAGE": "development"
+        },
+        "lambda_handler": "handlers.lambda_handler",
+        "profile_name": null,
+        "project_name": "fxr-forex",
+        "runtime": "python3.6",
+        "s3_bucket": "fxr.dev.zappa",
+        "log_level": "INFO",
+        "binary_support":false,
+        "manage_roles": false,
+        "timeout_seconds": 300,
+        "exclude": ["*.gz", "*.rar"],
+        "role_arn":"arn:aws:iam::216559750644:role/FXR_ZappaRole",
+        "role_name":"FXR_ZappaRole",
+        "events": [
+          {
+            "function": "handlers.lambda_handler",
+            "event_source": {
+              "arn":  "arn:aws:sns:ap-southeast-1:216559750644:fxr-doc-generation-service-development",
+              "events": ["sns:Publish"]
+            }
+          }
+        ],
+        "vpc_config": {
+             "SubnetIds":  [ "subnet-09ef040352076b441", "subnet-0170b9aaf82cb157b" ],
+             "SecurityGroupIds": [ "sg-00596455bce5c1c6c", "sg-0c3f3e1047a15a693"]
+         }
+    },
+
+    "staging": {
+        "apigateway_enabled": false,
+        "aws_region": "ap-southeast-1",
+        "aws_environment_variables": {
+           "STAGE": "staging"
+        },
+        "lambda_handler": "handlers.lambda_handler",
+        "profile_name": null,
+        "project_name": "fxr-forex",
+        "runtime": "python3.6",
+        "s3_bucket": "finaxar.zappa",
+        "log_level": "INFO",
+        "timeout_seconds": 300,
+        "binary_support":false,
+        "manage_roles": false,
+        "exclude": ["*.gz", "*.rar"],
+        "role_arn":"arn:aws:iam::073212797308:role/DefaultZappaStaging",
+        "events": [
+          {
+            "function": "handlers.lambda_handler",
+            "event_source": {
+              "arn":  "arn:aws:sns:ap-southeast-1:073212797308:fxr-doc-generation-service-staging",
+              "events": ["sns:Publish"]
+            }
+          }
+        ],
+        "vpc_config": {
+             "SubnetIds": [ "subnet-a3f28dd5", "subnet-d39dd6b7" ],
+             "SecurityGroupIds": [ "sg-53981034", "sg-3c9a125b" ]
+         }
+    },
+    "production": {
+        "apigateway_enabled": false,
+        "lambda_handler": "handlers.lambda_handler",
+        "aws_region": "ap-southeast-1",
+        "aws_environment_variables": {
+           "STAGE": "production"
+        },
+        "profile_name": null,
+        "project_name": "fxr-forex",
+        "runtime": "python3.6",
+        "s3_bucket": "finaxar.zappa",
+        "log_level": "DEBUG",
+        "binary_support":false,
+        "manage_roles": false,
+        "timeout_seconds": 300,
+        "exclude": ["*.gz", "*.rar"],
+        "role_arn":"arn:aws:iam::073212797308:role/DefaultZappaStaging",
+        "events": [
+          {
+            "function": "handlers.lambda_handler",
+            "event_source": {
+              "arn":  "arn:aws:sns:ap-southeast-1:073212797308:fxr-doc-generation-service-production",
+              "events": ["sns:Publish"]
+            }
+          }
+        ],
+        "vpc_config": {
+           "SubnetIds": [ "subnet-749ba510", "subnet-fe193a88" ],
+           "SecurityGroupIds": [ "sg-63d2f604", "sg-75a88c12" ]
+         }
+    }
+}
