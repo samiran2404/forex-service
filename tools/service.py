@@ -35,7 +35,7 @@ class forex:
         logging.info("Inserting data into Dynamo DB")
         for item in payload:
             logging.info("Item inserted in dynamo db: "+ str(item))
-            # self.db.put_item(
-            #     TableName=self.table,
-            #     Item=item
-            # )
+            self.db.put_item(
+                TableName=self.table,
+                Item=item
+            )

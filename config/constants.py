@@ -1,3 +1,6 @@
+STAGE = 'STAGE'
+DEVELOPMENT = 'development'
+LOCAL = 'local'
 SYMBOLS = "SGD,MYR,HKD,VND"
 CURRENCIES = ["HKD", "SGD", "VND", "MYR"]
 DATE_FORMAT = '%Y-%m-%d'

@@ -31,6 +31,7 @@ scrap.py
 tmp/
 app.py
 handlers2.py
+tools/service2.py
 
 
 # PyInstaller
