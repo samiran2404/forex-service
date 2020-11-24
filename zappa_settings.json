@@ -22,7 +22,8 @@
         "vpc_config": {
              "SubnetIds":  [ "subnet-0170b9aaf82cb157b", "subnet-09ef040352076b441" ],
              "SecurityGroupIds": [ "sg-0595ebcf94d18f6cf"]
-         }
+         },
+        "keep_warm": false
     },
 
     "staging": {
@@ -47,7 +48,8 @@
         "vpc_config": {
              "SubnetIds": [ "subnet-a3f28dd5", "subnet-d39dd6b7" ],
              "SecurityGroupIds": [ "sg-02643f9ab3c0db52f" ]
-         }
+         },
+         "keep_warm": false
     },
     "production": {
         "apigateway_enabled": false,
@@ -71,6 +73,7 @@
         "vpc_config": {
            "SubnetIds": [ "subnet-749ba510", "subnet-fe193a88" ],
            "SecurityGroupIds": [ "sg-0f43536bd2a6927ee" ]
-         }
+         },
+         "keep_warm": false
     }
 }
