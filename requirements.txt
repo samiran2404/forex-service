@@ -1,8 +1,12 @@
 boto3
 raven==6.9.0
 requests
+jmespath==0.9.3
 -e git://github.com/finaxar/zappa.git#egg=zappa
 
-
-
-
+#zappa dependencies
+docutils==0.15.2
+cfn-flip==1.0.3
+PyYAML==3.13
+jmespath==0.9.3
+python-magic==0.4.18
