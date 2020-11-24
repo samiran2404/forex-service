@@ -22,7 +22,9 @@ class forex:
         currencies = constants.CURRENCIES
         base = payload.get('base')
         rates = payload.get('rates')
-        rate_date = time.strftime(constants.DATE_FORMAT, time.localtime(payload.get('timestamp')))
+        rate_timestamp = payload.get('timestamp')
+        rate_date = time.strftime(constants.DATE_FORMAT, time.localtime(rate_timestamp))
+
         payload = []
         logging.info("Starting the payload creation for dynamo db")
         for currency in currencies:
@@ -30,7 +32,8 @@ class forex:
                     'pair': {'S': base+currency},
                     'rate': {'N': str(rates.get(currency))},
                     'buy': {'S': currency},
-                    'rate_date': {'S': rate_date}}
+                    'rate_date': {'S': rate_date},
+                    'rate_timestamp':{'S': rate_timestamp}}
             payload.append(item)
         logging.info("Inserting data into Dynamo DB")
         for item in payload:

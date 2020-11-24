@@ -58,6 +58,6 @@ class Cfg(object, metaclass=Singleton):
 
         self.dynamo_client = boto3.client("dynamodb")
         self.table_name = self.Config("dynamodb", "table_name")
-        self.rate_url = self.get_parameter(self.Config("api", "url"), decrypt=True)
+        self.rate_url = self.get_parameter(self.Config("api", "url"), decrypt=False)
         self.app_id = self.get_parameter(self.Config("api", "app_id"), decrypt=True)
 
